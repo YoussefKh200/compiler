@@ -65,10 +65,10 @@ void print_token(Token token){
 
 Token *generate_number(char *current, int *current_index){
   Token *token = malloc(sizeof(Token));
-  token->line_num = malloc(sizeof(size_t));
+ 
   token->line_num = line_number;
   token->type = INT;
-  char *value = malloc(sizeof(char) * 8);
+  char *value = malloc(32);
   int value_index = 0;
   while(isdigit(current[*current_index]) && current[*current_index] != '\0'){
     if(!isdigit(current[*current_index])){
@@ -85,7 +85,6 @@ Token *generate_number(char *current, int *current_index){
 
 Token *generate_keyword_or_identifier(char *current, int *current_index){
   Token *token = malloc(sizeof(Token));
-  token->line_num = malloc(sizeof(size_t));
   token->line_num = line_number;
   char *keyword = malloc(sizeof(char) * 8);
   int keyword_index = 0;
@@ -131,7 +130,6 @@ Token *generate_keyword_or_identifier(char *current, int *current_index){
 
 Token *generate_string_token(char *current, int *current_index){
   Token *token = malloc(sizeof(Token));
-  token->line_num = malloc(sizeof(size_t));
   token->line_num = line_number;
   char *value = malloc(sizeof(char) * 64);
   int value_index = 0;
@@ -152,7 +150,6 @@ Token *generate_separator_or_operator(char *current, int *current_index, TokenTy
   token->value = malloc(sizeof(char) * 2);
   token->value[0] = current[*current_index];
   token->value[1] = '\0';
-  token->line_num = malloc(sizeof(size_t));
   token->line_num = line_number;
   token->type = type;
   return token;

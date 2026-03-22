@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "lexerf.h"
+#include "tokenizer.h"
 
 #define MAX_CURLY_STACK_LENGTH 64
 
@@ -66,15 +66,18 @@ void print_error(char *error_type, size_t line_number){
 }
 
 Node *parse_expression(Token *current_token, Node *current_node){
-  Node *expr_node = malloc(sizeof(Node));
-  expr_node = init_node(expr_node, current_token->value, current_token->type);
-  current_token++;
-  if(current_token->type != OPERATOR){
-    return expr_node;
-  }
-  return expr_node;
-}
+    (void)current_node; // remove unused warning
 
+    Node *expr_node = init_node(NULL, current_token->value, current_token->type);
+
+    current_token++;
+
+    if(current_token->type != OPERATOR){
+        return expr_node;
+    }
+
+    return expr_node;
+}
 
 Token *generate_operation_nodes(Token *current_token, Node *current_node){
   Node *oper_node = malloc(sizeof(Node));
@@ -145,6 +148,8 @@ Token *generate_operation_nodes(Token *current_token, Node *current_node){
 }
 
 Node *handle_exit_syscall(Node *root, Token *current_token, Node *current){
+    
+	(void)root;
     Node *exit_node = malloc(sizeof(Node));
     exit_node = init_node(exit_node, current_token->value, KEYWORD);
     current->right = exit_node;
@@ -276,8 +281,8 @@ Node *create_variable_reusage(Token *current_token, Node *current){
           identifier_node = init_node(identifier_node, current_token->value, IDENTIFIER);
           current->left = identifier_node;
         } else {
-          printf("ERROR: Unexpected Token\n", current_token->line_num);
-          exit(1);
+		printf("ERROR: Unexpected Token at line %zu\n", current_token->line_num);
+       		exit(1);
         }
         current_token++;
         if(current_token->type == OPERATOR){
