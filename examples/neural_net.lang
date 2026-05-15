@@ -1,0 +1,33 @@
+// Simple neural network layer
+struct Layer {
+    weights: [f64; 1000],
+    biases: [f64; 10],
+    input_size: i32,
+    output_size: i32
+}
+
+fn relu(x: f64) -> f64 {
+    if (x > 0.0) {
+        return x;
+    }
+    return 0.0;
+}
+
+fn forward(layer: Layer, input: [f64; 100], output: [f64; 10]) {
+    let i: i32 = 0;
+    while (i < layer.output_size) {
+        let sum: f64 = layer.biases[i];
+        let j: i32 = 0;
+        while (j < layer.input_size) {
+            sum = sum + layer.weights[i * layer.input_size + j] * input[j];
+            j = j + 1;
+        }
+        output[i] = relu(sum);
+        i = i + 1;
+    }
+}
+
+fn main() {
+    // Create layer and run forward pass
+    return;
+}

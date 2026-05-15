@@ -1,0 +1,6 @@
+// Hello World example
+fn main() {
+    // In a real implementation, this would call a print function
+    let message: string = "Hello, World!";
+    return;
+}

@@ -68,4 +68,51 @@ TEST_F(ParserTest, IfStatement) {
     EXPECT_EQ(ifStmt->elseBranch, nullptr);
 }
 
-TEST_F(ParserTest,
+TEST_F(ParserTest, WhileStatement) {
+    auto ast = parse("fn main() { while (true) { } }");
+    auto* func = dynamic_cast<FunctionDecl*>(ast->declarations[0].get());
+    auto* block = dynamic_cast<BlockStmt*>(func->body.get());
+    auto* whileStmt = dynamic_cast<WhileStmt*>(block->statements[0].get());
+    
+    ASSERT_NE(whileStmt, nullptr);
+    ASSERT_NE(whileStmt->condition, nullptr);
+    ASSERT_NE(whileStmt->body, nullptr);
+}
+
+TEST_F(ParserTest, BinaryExpression) {
+    auto ast = parse("fn main() { let x = 1 + 2 * 3; }");
+    auto* func = dynamic_cast<FunctionDecl*>(ast->declarations[0].get());
+    auto* block = dynamic_cast<BlockStmt*>(func->body.get());
+    auto* varDecl = dynamic_cast<VarDeclStmt*>(block->statements[0].get());
+    auto* expr = dynamic_cast<BinaryExpr*>(varDecl->initializer.get());
+    
+    ASSERT_NE(expr, nullptr);
+    EXPECT_EQ(expr->op, BinaryExpr::Op::Add);
+}
+
+TEST_F(ParserTest, StructDeclaration) {
+    auto ast = parse("struct Point { x: f64, y: f64 }");
+    ASSERT_EQ(ast->declarations.size(), 1);
+    
+    auto* structDecl = dynamic_cast<StructDecl*>(ast->declarations[0].get());
+    ASSERT_NE(structDecl, nullptr);
+    EXPECT_EQ(structDecl->name, "Point");
+    ASSERT_EQ(structDecl->fields.size(), 2);
+    EXPECT_EQ(structDecl->fields[0].name, "x");
+    EXPECT_EQ(structDecl->fields[1].name, "y");
+}
+
+TEST_F(ParserTest, EnumDeclaration) {
+    auto ast = parse("enum Color { Red, Green, Blue }");
+    ASSERT_EQ(ast->declarations.size(), 1);
+    
+    auto* enumDecl = dynamic_cast<EnumDecl*>(ast->declarations[0].get());
+    ASSERT_NE(enumDecl, nullptr);
+    EXPECT_EQ(enumDecl->name, "Color");
+    ASSERT_EQ(enumDecl->variants.size(), 3);
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

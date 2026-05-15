@@ -1,0 +1,29 @@
+// Matrix multiplication example
+struct Matrix {
+    data: [f64; 100],
+    rows: i32,
+    cols: i32
+}
+
+fn matmul(a: Matrix, b: Matrix, result: Matrix) {
+    let i: i32 = 0;
+    while (i < a.rows) {
+        let j: i32 = 0;
+        while (j < b.cols) {
+            let sum: f64 = 0.0;
+            let k: i32 = 0;
+            while (k < a.cols) {
+                sum = sum + a.data[i * a.cols + k] * b.data[k * b.cols + j];
+                k = k + 1;
+            }
+            result.data[i * result.cols + j] = sum;
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+}
+
+fn main() {
+    // Initialize matrices and call matmul
+    return;
+}
