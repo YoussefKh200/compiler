@@ -6,11 +6,6 @@
 
 A modern multi-pass compiler with AI-assisted optimization, featuring full LLVM backend integration and JIT execution support.
 
-## Architecture Overview
-
-![Architecture Diagram](./markmap.svg)
-
-*Click the diagram above for interactive navigation*
 
 ## Features
 
