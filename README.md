@@ -94,6 +94,10 @@ compiler/
 - Python server for model inference
 - Feedback loop for continuous learning
 
+## Overview
+
+![Compiler Overview](Capture%20d'écran%202026-05-16%20131827.png)
+
 ## Quick Start
 
 ### Prerequisites
